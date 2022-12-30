@@ -52,7 +52,8 @@ function Square(props) {
                 squareNumber: null
             }],
             stepNumber: 0,
-            xIsNext: true
+            xIsNext: true,
+            activeHistory: null
         }
     }
 
@@ -70,14 +71,16 @@ function Square(props) {
                 squareNumber: i
             }]),
             stepNumber: history.length,
-            xIsNext: !this.state.xIsNext
+            xIsNext: !this.state.xIsNext,
+            activeHistory: null,
         })
     }
 
     jumpTo(step) {
         this.setState({
             stepNumber: step,
-            xIsNext: (step % 2) === 0
+            xIsNext: (step % 2) === 0,
+            activeHistory: step
         })
     }
 
@@ -94,7 +97,7 @@ function Square(props) {
                 'К началу игры'
             return (
                 <li key={move}>
-                    <button onClick={() => this.jumpTo(move)}>{desc}</button>
+                    <button className={this.state.activeHistory == move ? "button_red" : ""} onClick={() => this.jumpTo(move)}>{desc}</button>
                 </li>
             )
         });
