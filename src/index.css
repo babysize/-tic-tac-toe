@@ -53,3 +53,7 @@ ol, ul {
   font-weight: bold;
   margin-left: 10px;
 }
+
+.win-square {
+  background: rgb(65, 238, 65);
+}
