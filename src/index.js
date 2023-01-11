@@ -21,25 +21,40 @@ function Square(props) {
     }
 
     render() {  
-      return (
-        <div>
-          <div className="board-row">
-            {this.renderSquare(0)}
-            {this.renderSquare(1)}
-            {this.renderSquare(2)}
-          </div>
-          <div className="board-row">
-            {this.renderSquare(3)}
-            {this.renderSquare(4)}
-            {this.renderSquare(5)}
-          </div>
-          <div className="board-row">
-            {this.renderSquare(6)}
-            {this.renderSquare(7)}
-            {this.renderSquare(8)}
-          </div>
-        </div>
-      );
+      let countRow = 3
+      let countColumn =3
+
+      let content = []
+
+      for (let i = 0; i < countRow*countColumn; i+=3) {
+        let contentRow = []
+        for (let j = 0; j < countColumn; j++) {
+          contentRow.push(this.renderSquare(i+j))
+        }
+        content.push(<div className='board-row'>{contentRow}</div>)
+      }
+
+      return content
+
+      // return (
+        // <div>
+        //   <div className="board-row">
+        //     {this.renderSquare(0)}
+        //     {this.renderSquare(1)}
+        //     {this.renderSquare(2)}
+        //   </div>
+        //   <div className="board-row">
+        //     {this.renderSquare(3)}
+        //     {this.renderSquare(4)}
+        //     {this.renderSquare(5)}
+        //   </div>
+        //   <div className="board-row">
+        //     {this.renderSquare(6)}
+        //     {this.renderSquare(7)}
+        //     {this.renderSquare(8)}
+        //   </div>
+        // </div>
+      // );
     }
   }
   
