@@ -16,6 +16,7 @@ function Square(props) {
             <Square 
                 value={this.props.squares[i]}
                 onClick={() => this.props.onClick(i)}
+                key={i}
             />
         )
     }
@@ -31,30 +32,33 @@ function Square(props) {
         for (let j = 0; j < countColumn; j++) {
           contentRow.push(this.renderSquare(i+j))
         }
-        content.push(<div className='board-row'>{contentRow}</div>)
+        content.push(<div key={i} className='board-row'>{contentRow}</div>)
       }
 
       return content
+    }
+  }
 
-      // return (
-        // <div>
-        //   <div className="board-row">
-        //     {this.renderSquare(0)}
-        //     {this.renderSquare(1)}
-        //     {this.renderSquare(2)}
-        //   </div>
-        //   <div className="board-row">
-        //     {this.renderSquare(3)}
-        //     {this.renderSquare(4)}
-        //     {this.renderSquare(5)}
-        //   </div>
-        //   <div className="board-row">
-        //     {this.renderSquare(6)}
-        //     {this.renderSquare(7)}
-        //     {this.renderSquare(8)}
-        //   </div>
-        // </div>
-      // );
+  class SortButton extends React.Component {
+    constructor(props) {
+      super(props)
+      this.state = {isToggleOn: true}
+      this.handleClick = this.handleClick.bind(this)
+    }
+
+    handleClick() {
+      this.props.sortMoves()
+      this.setState(prevState => ({
+        isToggleOn: !prevState.isToggleOn
+      }))
+    }
+
+    render() {
+      return (
+        <button onClick={this.handleClick}>
+          {this.state.isToggleOn ? 'отсортировать по убыванию' : 'отсортировать по возрастанию' }
+        </button>
+      )
     }
   }
   
@@ -68,8 +72,10 @@ function Square(props) {
             }],
             stepNumber: 0,
             xIsNext: true,
-            activeHistory: null
+            activeHistory: null,
+            isToggleOn: true,
         }
+        this.sortMoves = this.sortMoves.bind(this)
     }
 
     handleClick(i) {
@@ -99,6 +105,12 @@ function Square(props) {
         })
     }
 
+    sortMoves() {
+      this.setState({
+        isToggleOn: !this.state.isToggleOn
+      })
+    }
+
     render() {
         const history = this.state.history
         const current = history[this.state.stepNumber]
@@ -116,6 +128,13 @@ function Square(props) {
                 </li>
             )
         });
+
+        moves.sort((a,b) => { 
+          if(this.state.isToggleOn) 
+            return a.key > b.key ? 1 : -1
+          else
+            return a.key < b.key ? 1 : -1
+        })
 
         let status
         if(winner) {
@@ -135,7 +154,10 @@ function Square(props) {
           </div>
           <div className="game-info">
             <div>{status}</div>
-            <ol>{moves}</ol>
+            <ul>{moves}</ul>
+            <SortButton
+              sortMoves={this.sortMoves}
+            />
           </div>
         </div>
       );
