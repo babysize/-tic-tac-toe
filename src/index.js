@@ -150,8 +150,10 @@ function Square(props) {
         let status
         if(winner) {
             status = 'Win ' + winner
+        } else if(current.squares.every(elem => elem != null)) {
+          status = 'Draw'
         } else {
-            status = 'Next move ' + (this.state.xIsNext ? 'X' : 'O')
+          status = 'Next move ' + (this.state.xIsNext ? 'X' : 'O')
         }
 
 
